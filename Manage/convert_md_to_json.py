@@ -64,9 +64,9 @@ def md_to_json(md_file, json_file):
     with open(temp_json_path, "w") as outfile:
         json.dump(json_structure, outfile, indent=4)
 
-    # Move the JSON file to the parent directory
-    parent_dir_path = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
-    destination_path = os.path.join(parent_dir_path, json_file)
+    # Move the JSON file to the current directory (Manage)
+    current_dir_path = os.getcwd()
+    destination_path = os.path.join(current_dir_path, json_file)
     shutil.move(temp_json_path, destination_path)
     print(f"Moved {json_file} to {destination_path}")
 

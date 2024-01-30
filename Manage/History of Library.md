@@ -1069,3 +1069,10 @@ Structural management from one file
 In the case of `![[note_name]]` in obisidian's markdown grammar, it is called Wikilink, which shows the contents of the linked note. In other words, the mirroring method makes the two structures managed by Homepage and call-number-index manage in one place  
   
 The result is easy to implement and easy to manage afterwards
+
+
+# 2.5 Combine and One place
+import conver_md_to_json module in automation.py
+and automation.py, structure.json moved to /Management 
+So all python files and json files moved and exeucute in /Management
+

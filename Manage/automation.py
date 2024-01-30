@@ -3,6 +3,8 @@ import json
 import shutil
 import re
 
+import convert_md_to_json
+
 
 # Load the JSON file containing the directory structure
 def load_json_structure(file_path):
@@ -212,7 +214,7 @@ def construct_book_tag(book_code, structure):
 current_dir = os.getcwd()
 expected_dir_name = "Library"
 
-if os.path.basename(current_dir) != expected_dir_name:
+if expected_dir_name not in current_dir:
     print(
         f"Error: Current directory {current_dir} is not '{expected_dir_name}'. Exiting script."
     )
@@ -220,10 +222,23 @@ if os.path.basename(current_dir) != expected_dir_name:
 
 
 # Main execution
+base_directory = os.path.abspath(os.path.join(os.getcwd(), os.pardir))
 json_file_name = "structure.json"
+
+
+# start convert md
+md_file = "../Entrance/Call Number Index.md"
+json_file = "structure.json"
+
+print(f"Read from {md_file}")
+convert_md_to_json.md_to_json(md_file, json_file)
+print(f"Output json file is {json_file}")
+
+# end convert md
+
 json_structure = load_json_structure(json_file_name)
-base_directory = os.getcwd()
 Entrance_directory = os.path.join(base_directory, "Entrance")
+
 
 print(f"json_file_name: {json_file_name}")
 print(f"base_directory: {base_directory}")

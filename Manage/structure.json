@@ -39,15 +39,23 @@
         },
         "200": {
             "value": "200",
-            "title": "DevOps Solutions",
+            "title": "DevOps",
             "MinorCategories": {
                 "210": {
                     "title": "CICD",
                     "Subcategories": {
-                        "210.00": {
-                            "title": "CICD",
+                        "210.10": {
+                            "title": "DevOps Fundemental",
+                            "Books": {}
+                        },
+                        "210.20": {
+                            "title": "DevOps Culture",
+                            "Books": {}
+                        },
+                        "210.30": {
+                            "title": "DevOps Solutions",
                             "Books": {
-                                "210.00 a": "GitLab"
+                                "210.30 a": "GitLab"
                             }
                         }
                     }
@@ -57,7 +65,12 @@
         "300": {
             "value": "300",
             "title": "Applications",
-            "MinorCategories": {}
+            "MinorCategories": {
+                "310": {
+                    "title": "Applications Framework",
+                    "Subcategories": {}
+                }
+            }
         },
         "400": {
             "value": "400",

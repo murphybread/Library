@@ -47,13 +47,9 @@ Each note is connected only to the preceding and following ones.
 
 ```dataview
 TABLE file.name AS title, file.link
-FROM ""
+FROM "/Projects/Library/"
 WHERE dg-publish = true
 SORT file.ctime DESC
-LIMIT 5
-
-
-
 
 ```
 

@@ -7,12 +7,14 @@
 [[100]] Infra
 - [[110]] DevOps Engineer Infra
 - [[120]] ML Engineer Infra
-[[200]] DevOps Solutions
+[[200]] DevOps 
 - [[210]] CICD
-	- [[210.00]] CICD
-		- [[210.00 a]] GitLab
+	- [[210.10]] DevOps Fundemental
+	- [[210.20]] DevOps Culture
+	- [[210.30]] DevOps Solutions
+		- [[210.30 a]] GitLab
 [[300]] Applications
-- 
+- [[310]] Applications Framework
 [[400]] ML Engineer Basic
 - [[410]] Mathematics
 	- [[410.00]] Linear Algebra
