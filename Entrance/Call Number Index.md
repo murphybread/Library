@@ -9,10 +9,10 @@
 - [[120]] ML Engineer Infra
 [[200]] DevOps 
 - [[210]] CICD
-	- [[210.10]] DevOps Fundemental
-	- [[210.20]] DevOps Culture
-	- [[210.30]] DevOps Solutions
-		- [[210.30 a]] GitLab
+	- [[210.00]] DevOps Fundemental
+	- [[210.10]] DevOps Culture
+	- [[210.20]] DevOps Solutions
+		- [[210.20 a]] GitLab
 [[300]] Applications
 - [[310]] Applications Framework
 [[400]] ML Engineer Basic

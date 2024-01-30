@@ -46,11 +46,11 @@ Each note is connected only to the preceding and following ones.
 # Recent Posts
 
 ```dataview
-TABLE file.name AS title, file.link
-FROM "/Projects/Library/"
+TABLE file.name AS title, file.path, file.mtime
+FROM "Projects/Library"
 WHERE dg-publish = true
 SORT file.ctime DESC
-
+LIMIT 7
 ```
 
 

@@ -44,18 +44,18 @@
                 "210": {
                     "title": "CICD",
                     "Subcategories": {
-                        "210.10": {
+                        "210.00": {
                             "title": "DevOps Fundemental",
                             "Books": {}
                         },
-                        "210.20": {
+                        "210.10": {
                             "title": "DevOps Culture",
                             "Books": {}
                         },
-                        "210.30": {
+                        "210.20": {
                             "title": "DevOps Solutions",
                             "Books": {
-                                "210.30 a": "GitLab"
+                                "210.20 a": "GitLab"
                             }
                         }
                     }

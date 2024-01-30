@@ -404,6 +404,7 @@ white background web site, so black window
 
 
 
+
 # modify js and apply css
 
 
@@ -1076,3 +1077,18 @@ import conver_md_to_json module in automation.py
 and automation.py, structure.json moved to /Management 
 So all python files and json files moved and exeucute in /Management
 
+
+
+# Change dataview query
+
+```
+TABLE file.name AS title, file.path, file.mtime
+FROM "Projects/Library"
+WHERE dg-publish = true
+SORT file.ctime DESC
+LIMIT 7
+```
+
+Add Table attrivutes modifed time path and remove link
+Specifify query path "Projects/Library"
+Increase Limit to 7
