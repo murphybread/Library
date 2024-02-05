@@ -1144,3 +1144,44 @@ dg-publish: true
 ```
 
 
+
+
+# 2.6.0 Change the call number index structure and modify the convert file
+
+## Problem
+`obisidian use ![[filename]] preview of note, but line break and indentation was wrong`
+
+As-is Used this structure pattern
+```
+[[000]] IT Knowledge
+- [[010]] Develop Knowledge
+	- [[010.00]] Develop Computer Science Knowledge
+		- [[010.00 a]] Essential Developer Insights
+	- [[010.10]] Develop Programming Language
+		- [[010.10 a]] Bash shell
+
+```
+
+Major Category don't use hypen.
+That makes preview error indent and line break
+
+## Solution
+
+### First Change call number md file like this
+```
+- [[000]] IT Knowledge
+	- [[010]] Develop Knowledge
+		- [[010.00]] Develop Computer Science Knowledge
+			- [[010.00 a]] Essential Developer Insights
+		- [[010.10]] Develop Programming Language
+			- [[010.10 a]] Bash shell
+```
+
+### Second Change convert_josn.py 
+Important point is just change a little bit. Because I don't want to change output.json, filename, path etc...
+only consider point is major and minor category variable.
+
+```
+major_match = re.match(r"- \[\[(\d0\d)\]\]\s*(.*)", line)
+minor_match = re.match(r"- \[\[(\d[1-9]\d)\]\]\s*(.*)", line)
+```

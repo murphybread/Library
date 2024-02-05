@@ -20,8 +20,8 @@ def md_to_json(md_file, json_file):
 
         try:
             # Match major, minor, subcategories, and book entries
-            major_match = re.match(r"\[\[(\d{3})\]\]\s*(.*)", line)
-            minor_match = re.match(r"- \[\[(\d{3})\]\]\s*(.*)", line)
+            major_match = re.match(r"- \[\[(\d0\d)\]\]\s*(.*)", line)
+            minor_match = re.match(r"- \[\[(\d[1-9]\d)\]\]\s*(.*)", line)
             sub_match = re.match(r"- \[\[(\d{3}\.\d{2})\]\]\s*(.*)", line)
             book_match = re.match(r"- \[\[(\d{3}\.\d{2} [a-zA-Z])\]\]\s*(.*)", line)
 
