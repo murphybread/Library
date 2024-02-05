@@ -46,7 +46,9 @@
                     "Subcategories": {
                         "210.00": {
                             "title": "DevOps Fundemental",
-                            "Books": {}
+                            "Books": {
+                                "210.00 a": "DevOps Backgrond"
+                            }
                         },
                         "210.10": {
                             "title": "DevOps Culture",
@@ -145,8 +147,7 @@
                         "610.10": {
                             "title": "NumPy",
                             "Books": {
-                                "610.10 a": "Numpy Fundamental functions",
-                                "610.10 b": "Numpy Appllied function"
+                                "610.10 a": "Numpy Fundamental functions"
                             }
                         }
                     }
@@ -173,7 +174,9 @@
                     "Subcategories": {
                         "630.00": {
                             "title": "scikit-learn",
-                            "Books": {}
+                            "Books": {
+                                "630.00 a": "scikit-learn functions"
+                            }
                         },
                         "630.10": {
                             "title": "TensorFlow",

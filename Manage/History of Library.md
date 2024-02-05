@@ -1,6 +1,6 @@
 ---
-
 dg-publish: true
+
 ---
 
 
@@ -1092,3 +1092,55 @@ LIMIT 7
 Add Table attrivutes modifed time path and remove link
 Specifify query path "Projects/Library"
 Increase Limit to 7
+
+
+# Using GitHub to Share Synchronized Python Files Across Different Platforms
+
+## Problem
+
+The current Obsidian sync functionality only supports synchronization for files with Python file extensions, excluding files in other formats such as Markdown (md).
+
+Initial attempts involved converting Python files into Markdown (md) or inserting Python code into Markdown files. However, this approach resulted in excessive fragmentation and posed challenges for management.
+
+## Solution
+
+https://github.com/murphybread/Library
+
+To address this issue, the solution is to utilize GitHub links for syncing files between different platforms, such as Mac and Windows. This can be achieved by performing a 'git pull' to ensure synchronization with the latest version when starting work through the GitHub link.
+
+
+
+# 2.5.2 dg-publish frontmatter position
+## Problem
+### Notes not showing up on the homepage
+
+Reasoning
+There are some things that work and some things that don't, and in particular, there is a 404 in the case of the latter, so it seems that there is a problem with publishing.
+
+If the tag of the note that doesn't work is separated by a line like this, it is judged as a problem.
+problem form
+```
+---
+
+
+dg-publish: true
+
+---
+```
+
+
+## Solution.
+Tested some notes by moving the tags as follows and confirmed normal operation.
+Then I added a function called `update_content_and_position` in the python file.
+duplicate_tag.py to automate it.
+
+```
+---
+dg-publish: true
+
+
+
+---
+```
+
+

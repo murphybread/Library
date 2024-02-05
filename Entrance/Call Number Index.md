@@ -10,6 +10,7 @@
 [[200]] DevOps 
 - [[210]] CICD
 	- [[210.00]] DevOps Fundemental
+		- [[210.00 a]] DevOps Backgrond
 	- [[210.10]] DevOps Culture
 	- [[210.20]] DevOps Solutions
 		- [[210.20 a]] GitLab
@@ -39,7 +40,7 @@
 		- [[610.00 a]] Pandas-basic 
 	- [[610.10]] NumPy
 		- [[610.10 a]] Numpy Fundamental functions
-		- [[610.10 b]] Numpy Appllied function
+		- [[Projects/Library/Entrance/610.10 b|610.10 b]] Numpy Appllied function
 - [[620]] Data visualization
 	- [[620.00]] MatplotLib
 		- [[620.00 a]] MatplotLib Fundamental 
@@ -47,6 +48,7 @@
 		- [[620.10 a]] Seaborn Fundamental  
 - [[630]] Machine Learning Frameworks
     - [[630.00]] scikit-learn
+	    - [[630.00 a]] scikit-learn functions
     - [[630.10]] TensorFlow
     - [[630.20]] PyTorch
     - [[630.30]] Langchain

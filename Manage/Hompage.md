@@ -23,8 +23,6 @@ The library call numbers are classified as follows:
   
 Notes with suffixes like"a" represent articles containing content, while other identifiers denote a range.
 You can view all notes call numbers at once
-[[Call Number Index]]
-
 
 
 2. Method through search
