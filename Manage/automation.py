@@ -93,121 +93,56 @@ def determine_new_path(file_name, structure, base_path):
 
 
 # Function to add tags to Markdown files
-def add_tags_to_md_files(base_path, structure):
+def add_tags_to_md_files(base_path):
+    print(f'start add_tags_to_md files')
     for root, dirs, files in os.walk(base_path):
+        if "Entrance" not in root:  # Skip processing if not in the Entrance directory
+            continue
         for file in files:
             if file.endswith(".md"):
                 file_path = os.path.join(root, file)
                 try:
-                    with open(file_path, "r", encoding="utf-8") as f:
-                        content = f.readlines()
-
-                    new_tag = construct_tag(file, structure)
-                    print(f"Checking tags in {file}")
-
-                    # Split the file into header and body
-                    if "---" in content:
-                        split_index = content.index(
-                            "---\n", 1
-                        )  # Find the second occurrence of '---'
-                        header = content[: split_index + 1]
-                        body = content[split_index + 1 :]
-
-                        # Check if new tag already exists in header
-                        if new_tag + "\n" not in header:
-                            header.insert(
-                                -1, new_tag + "\n"
-                            )  # Insert tag at the end of header
-                            print(f"Added tag to {file}")
-
-                        # Reassemble the file
-                        content = header + body
-                    else:
-                        print(f"No header in {file}, skipping tag addition")
-
-                    with open(file_path, "w", encoding="utf-8") as f:
-                        f.writelines(content)
+                    with open(file_path, "r+", encoding="utf-8") as f:
+                        content = f.read()
+                        f.seek(0)  # Go back to the start of the file
+                        
+                        new_tag = construct_tag(file)
+                        print(f'new_tag: {new_tag}')
+                        
+                        if "---" in content and new_tag:
+                            parts = content.split("---", 2)
+                            if len(parts) == 3:
+                                header, middle, body = parts
+                                modified_middle = f"{middle}---\n{new_tag}\n"
+                                new_content = f"{header}---{modified_middle}{body}"
+                                f.write(new_content)
+                                f.truncate()  # Remove the rest of the old content
+                                print(f"Added tag to {file}")
+                        else:
+                            print(f"No header found in {file}, skipping.")
 
                 except UnicodeDecodeError as e:
-                    print(f"Error reading {file_path}: {e}")
+                    print(f"Error reading {file}: {e}")
 
-
-# Function to construct the appropriate tag for a file
-def construct_tag(file_name, structure):
-    major_match = re.match(r"(\d0\d).md", file_name)
-    minor_match = re.match(r"(\d[1-9]\d)\.md", file_name)
-    sub_match = re.match(r"(\d{3}\.\d{2}).md", file_name)
-    book_match = re.match(r"(\d{3}\.\d{2}) [a-zA-Z].md", file_name)
-
-    tag = ""
-    if major_match:
-        major_code = major_match.group(1)
-        print(f"Major Category Match: {major_code}")
-        tag = construct_major_tag(major_code, structure)
-
-    elif minor_match:
-        minor_code = minor_match.group(1)
-        print(f"Minor Category Match: {minor_code}")
-        tag = construct_minor_tag(minor_code, structure)
-
-    elif sub_match:
-        sub_code = sub_match.group(1)
-        print(f"Subcategory Match: {sub_code}")
-        tag = construct_subcategory_tag(sub_code, structure)
-
-    elif book_match:
-        book_code = book_match.group(1)
-        print(f"Book Match: {book_code}")
-        tag = construct_book_tag(book_code, structure)
-
-    else:
-        print(f"No match for file: {file_name}")
-
-    return tag
-
-
-# Helper functions to construct tags for each file type
-def construct_major_tag(major_code, structure):
-    tag = f"#[[{major_code}]]"
-    minor_categories = structure["MajorCategories"][major_code].get(
-        "MinorCategories", {}
-    )
-    for minor_key in minor_categories.keys():
-        tag += f"#[[{minor_key}]]"
-    return tag
-
-
-def construct_minor_tag(minor_code, structure):
-    for major_key, major_val in structure["MajorCategories"].items():
-        if minor_code in major_val["MinorCategories"]:
-            major_value = major_val["value"]
-            tag = f"#[[{major_value}]]#[[{minor_code}]]"
-            subcategories = major_val["MinorCategories"][minor_code].get(
-                "Subcategories", {}
-            )
-            for sub_key in subcategories.keys():
-                tag += f"#[[{sub_key}]]"
-            return tag
+# Tag is Defined by file name
+def construct_tag(file_name):
+    match = re.match(r"(\d{3})\.(\d{2})\s([a-zA-Z]+)\.md", file_name)
+    if match:
+        major, minor, subcategory_letter = match.groups()
+        
+        # Calculate broader category with correction for leading zeroes
+        broader_category_num = int(major) - int(major) % 100
+        broader_category = f"{broader_category_num:03}"  # Ensure the broader category is zero-padded to 3 digits
+        
+        major_category = f"{major}"
+        subcategory = f"{major}.{minor}"
+        book_category = f"{major}.{minor} {subcategory_letter}"
+        
+        tag = f"#[[{broader_category}]]#[[{major_category}]]#[[{subcategory}]]#[[{book_category}]]"
+        return tag
     return ""
 
 
-def construct_subcategory_tag(sub_code, structure):
-    for major_key, major_val in structure["MajorCategories"].items():
-        for minor_key, minor_val in major_val.get("MinorCategories", {}).items():
-            if sub_code in minor_val["Subcategories"]:
-                tag = f"#[[{sub_code}]]"
-                return tag
-    return ""
-
-
-def construct_book_tag(book_code, structure):
-    for major_key, major_val in structure["MajorCategories"].items():
-        for minor_key, minor_val in major_val.get("MinorCategories", {}).items():
-            for sub_key, sub_val in minor_val.get("Subcategories", {}).items():
-                if book_code.startswith(sub_key):
-                    tag = f"#[[{sub_key}]]#[[{book_code}]]"
-                    return tag
-    return ""
 
 
 # Ensure that we are in the correct directory to prevent affecting other directories
@@ -246,7 +181,10 @@ print(f"Entrance_directory: {Entrance_directory}")
 print("*--------------------*")
 
 create_directories(base_directory, json_structure)
+add_tags_to_md_files(Entrance_directory)
 move_files_from_Entrance(
     Entrance_directory, base_directory, json_structure
 )  # Added this line
-add_tags_to_md_files(base_directory, json_structure)
+
+
+
