@@ -93,7 +93,7 @@ def determine_new_path(file_name, structure, base_path):
 
 
 # Function to add tags to Markdown files
-def add_tags_to_md_files(base_path):
+def add_tags_to_md_files(base_path, json_structure):
     print(f'start add_tags_to_md files')
     for root, dirs, files in os.walk(base_path):
         if "Entrance" not in root:  # Skip processing if not in the Entrance directory
@@ -106,7 +106,7 @@ def add_tags_to_md_files(base_path):
                         content = f.read()
                         f.seek(0)  # Go back to the start of the file
                         
-                        new_tag = construct_tag(file)
+                        new_tag = construct_tag(file, json_structure)
                         print(f'new_tag: {new_tag}')
                         
                         if "---" in content and new_tag:
@@ -124,23 +124,36 @@ def add_tags_to_md_files(base_path):
                 except UnicodeDecodeError as e:
                     print(f"Error reading {file}: {e}")
 
-# Tag is Defined by file name
-def construct_tag(file_name):
-    match = re.match(r"(\d{3})\.(\d{2})\s([a-zA-Z]+)\.md", file_name)
+# Tag define
+def construct_tag(file_name, json_structure):
+    # Regex to extract major, minor, and book identifier from the filename
+    match = re.match(r"(\d{3})\.(\d{2})\s([a-zA-Z])\.md", file_name)
     if match:
-        major, minor, subcategory_letter = match.groups()
+        major, minor, book_id = match.groups()
+        book_category_code = f"{major}.{minor} {book_id}"
         
-        # Calculate broader category with correction for leading zeroes
-        broader_category_num = int(major) - int(major) % 100
-        broader_category = f"{broader_category_num:03}"  # Ensure the broader category is zero-padded to 3 digits
+        # Initialize variables to hold the broader category and title
+        broader_category = ""
+        title = ""
         
-        major_category = f"{major}"
-        subcategory = f"{major}.{minor}"
-        book_category = f"{major}.{minor} {subcategory_letter}"
+        # Navigate through the JSON structure to find the title
+        for major_key, major_val in json_structure["MajorCategories"].items():
+            for minor_key, minor_val in major_val["MinorCategories"].items():
+                for sub_key, sub_val in minor_val["Subcategories"].items():
+                    if book_category_code in sub_val["Books"]:
+                        broader_category = major_key
+                        title = sub_val["Books"][book_category_code]
+                        break
         
-        tag = f"#[[{broader_category}]]#[[{major_category}]]#[[{subcategory}]]#[[{book_category}]]"
-        return tag
-    return ""
+        # Construct the tag with the title, replacing spaces with underscores
+        if broader_category and title:
+            title_sanitized = title.replace(" ", "_")
+            tag = f"#[[{broader_category}]]#[[{major}]]#[[{major}.{minor}]]#[[{book_category_code}]]#{title_sanitized}"
+            return tag
+        else:
+            return "Tag construction failed: Title not found."
+    else:
+        return "Tag construction failed: Filename does not match pattern."
 
 
 
@@ -181,7 +194,7 @@ print(f"Entrance_directory: {Entrance_directory}")
 print("*--------------------*")
 
 create_directories(base_directory, json_structure)
-add_tags_to_md_files(Entrance_directory)
+add_tags_to_md_files(Entrance_directory, json_structure)
 move_files_from_Entrance(
     Entrance_directory, base_directory, json_structure
 )  # Added this line
