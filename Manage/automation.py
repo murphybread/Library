@@ -124,36 +124,64 @@ def add_tags_to_md_files(base_path, json_structure):
                 except UnicodeDecodeError as e:
                     print(f"Error reading {file}: {e}")
 
-# Tag define
+
+
+# Tag define 
 def construct_tag(file_name, json_structure):
-    # Regex to extract major, minor, and book identifier from the filename
-    match = re.match(r"(\d{3})\.(\d{2})\s([a-zA-Z])\.md", file_name)
-    if match:
-        major, minor, book_id = match.groups()
-        book_category_code = f"{major}.{minor} {book_id}"
+    # Regex patterns (make sure these accurately match your filenames)
+    print("start cont+++++++++++++")
+    print(f'file_name:{file_name}')
+    
+    
+    
+    major_regex = re.compile(r'^([0-9]{1}00)\.md$') 
+    minor_regex = re.compile(r'^([0-9]{1}[1-9][0-9])\.md$') 
+    subcategory_regex = re.compile(r'^([0-9]{1}[1-9][0-9])\.([0-9]{2})\.md$') 
+    book_regex = re.compile(r'^([0-9]{1}[1-9][0-9])\.([0-9]{2})\s([a-z])\.md$', re.IGNORECASE)
+    
+    
+    major_code, minor_code, sub_code, book_code = "", "", "", ""
+    
+    
+    if major_regex.match(file_name):
+        major_code = major_regex.match(file_name).group(1)
+    elif minor_regex.match(file_name):
+        major_code = minor_regex.match(file_name).group(1)[:1] + '00'
+        minor_code = minor_regex.match(file_name).group(1)
+    elif subcategory_regex.match(file_name):
+        major_code = subcategory_regex.match(file_name).group(1)[:1] + '00'
+        minor_code = subcategory_regex.match(file_name).group(1)
+        sub_code = subcategory_regex.match(file_name).group(2)
+    elif book_regex.match(file_name):
+        major_code = book_regex.match(file_name).group(1)[:1] + '00'
+        minor_code = book_regex.match(file_name).group(1)
+        sub_code = book_regex.match(file_name).group(2)
+        book_code = book_regex.match(file_name).group(3)
         
-        # Initialize variables to hold the broader category and title
-        broader_category = ""
-        title = ""
+
+    tag = ""
+    
+    if major_code:
+        major_info = json_structure.get("MajorCategories", {}).get(major_code, {})
+        tag += f"#[[{major_code}]]#{major_info.get('title', '').replace(' ', '_')}"
+    if minor_code:
+        minor_info = major_info.get("MinorCategories", {}).get(minor_code, {})
+        tag += f"#[[{minor_code}]]#{minor_info.get('title', '').replace(' ', '_')}"
+    if sub_code:
+        sub_info = minor_info.get("Subcategories", {}).get(f"{minor_code}.{sub_code}", {})
         
-        # Navigate through the JSON structure to find the title
-        for major_key, major_val in json_structure["MajorCategories"].items():
-            for minor_key, minor_val in major_val["MinorCategories"].items():
-                for sub_key, sub_val in minor_val["Subcategories"].items():
-                    if book_category_code in sub_val["Books"]:
-                        broader_category = major_key
-                        title = sub_val["Books"][book_category_code]
-                        break
-        
-        # Construct the tag with the title, replacing spaces with underscores
-        if broader_category and title:
-            title_sanitized = title.replace(" ", "_")
-            tag = f"#[[{broader_category}]]#[[{major}]]#[[{major}.{minor}]]#[[{book_category_code}]]#{title_sanitized}"
-            return tag
-        else:
-            return "Tag construction failed: Title not found."
-    else:
-        return "Tag construction failed: Filename does not match pattern."
+        tag += f"#[[{minor_code}.{sub_code}]]#{sub_info.get('title', '').replace(' ', '_')}"
+    if book_code:
+        book_info = sub_info.get("Books", {}).get(f"{minor_code}.{sub_code} {book_code}", "")
+        tag += f"#[[{minor_code}.{sub_code} {book_code}]]#{book_info.replace(' ', '_')}"
+    
+    
+    print(major_code, minor_code , sub_code, book_code)
+    
+    
+    return tag
+
+
 
 
 
