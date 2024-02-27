@@ -131,9 +131,7 @@ def construct_tag(file_name, json_structure):
     # Regex patterns (make sure these accurately match your filenames)
     print("start cont+++++++++++++")
     print(f'file_name:{file_name}')
-    
-    
-    
+        
     major_regex = re.compile(r'^([0-9]{1}00)\.md$') 
     minor_regex = re.compile(r'^([0-9]{1}[1-9][0-9])\.md$') 
     subcategory_regex = re.compile(r'^([0-9]{1}[1-9][0-9])\.([0-9]{2})\.md$') 
@@ -169,7 +167,6 @@ def construct_tag(file_name, json_structure):
         tag += f"#[[{minor_code}]]#{minor_info.get('title', '').replace(' ', '_')}"
     if sub_code:
         sub_info = minor_info.get("Subcategories", {}).get(f"{minor_code}.{sub_code}", {})
-        
         tag += f"#[[{minor_code}.{sub_code}]]#{sub_info.get('title', '').replace(' ', '_')}"
     if book_code:
         book_info = sub_info.get("Books", {}).get(f"{minor_code}.{sub_code} {book_code}", "")
