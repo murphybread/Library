@@ -34,7 +34,7 @@ def get_llm_aws_bedrock (model="amazon.titan-text-express-v1"):
         
     # }
     
-    llm = Bedrock(model_id = model)
+    llm = Bedrock(model_id = model, region_name="us-east-1")
     return llm
     
 
@@ -51,7 +51,7 @@ def get_llm_openai (model="gpt-3.5-turbo-0125"):
 def get_text_response (query,llm_model):
     
     #Step 1: Loading and splitting documents: 
-    loader = TextLoader("./abc.txt")
+    loader = TextLoader("./example.txt")
     documents = loader.load()
     text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
     docs = text_splitter.split_documents(documents)
@@ -68,7 +68,7 @@ def get_text_response (query,llm_model):
     retrieved_context = retrieved_docs[0].page_content  # Assume using first doc's content
     
     # Step 4: Combine the retrieved document content with the original query
-    combined_query = f"Context: {retrieved_context}\nQuery: {query}"
+    combined_query = f"Query: {query} Context: {retrieved_context}\n"
     
     # Step 5: Use the combined query as a prompt for the ChatOpenAI model
     chat = llm_model  # Ensure the ChatOpenAI instance is correctly initialized
@@ -85,7 +85,7 @@ def get_text_response (query,llm_model):
 def get_response_attribute (query,llm_model):
     
     #Step 1: Loading and splitting documents: 
-    loader = TextLoader("./abc.txt")
+    loader = TextLoader("./example.txt")
     documents = loader.load()
     text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
     docs = text_splitter.split_documents(documents)

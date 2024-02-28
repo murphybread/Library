@@ -2,8 +2,8 @@ import streamlit as st #모든 streamlit 명령은 "st" 별칭을 통해 사용�
 import RAG as rag #로컬 라이브러리 스크립트 참조
 
 
-st.set_page_config(page_title="프롬프트 템플릿")
-st.title("프롬프트 템플릿") #페이지 제목
+st.set_page_config(page_title="Murphy's Library")
+st.title("Murphy's Library") #페이지 제목
 
 
 model_name1 = 'gpt-3.5-turbo-0125'
@@ -43,8 +43,8 @@ if go_button:
         if openai_choice:
             with tab1:
                 st.header("OpenAI")
-                if openai_choice is "none":
-                    st.write("**OpenAI models are not selected**")
+                if openai_choice == "none":
+                    st.write("# :orange[OpenAI models are not selected]")
                 else:
                     
                     if openai_choice == model_name1:
@@ -57,8 +57,8 @@ if go_button:
         if aws_bedrock_choice:
             with tab2:
                 st.header("AWS Bedrock")
-                if aws_bedrock_choice is "none":
-                    st.write("**AWS Bedrock models are not selected**")
+                if aws_bedrock_choice == "none":
+                    st.write("# :orange[AWS Bedrock models are not selected]")
                 
                 else:
                     llm_model = llm_model_aws_bedrock
