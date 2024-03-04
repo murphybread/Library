@@ -113,16 +113,23 @@ def add_tags_to_md_files(base_path, json_structure):
                             parts = content.split("---", 2)
                             if len(parts) == 3:
                                 header, middle, body = parts
-                                modified_middle = f"{middle}---\n{new_tag}\n"
-                                new_content = f"{header}---{modified_middle}{body}"
+                                
+                                
+                                body_lines = body.split('\n', 2)
+                                print(f' line 0 {body_lines[0]}')
+                                print(f' line 1 {body_lines[1]}')
+                                print(f' line 2 {body_lines[2]}')
+                                modified_body = f"{new_tag}\n{body_lines[2]}" if len(body_lines) > 1 else new_tag
+                                new_content = f"---{middle}---\n{modified_body}"  # Reassemble the new content
                                 f.write(new_content)
                                 f.truncate()  # Remove the rest of the old content
-                                print(f"Added tag to {file}")
+                                print(f"Added tag to {new_tag}")
                         else:
                             print(f"No header found in {file}, skipping.")
 
                 except UnicodeDecodeError as e:
                     print(f"Error reading {file}: {e}")
+
 
 
 

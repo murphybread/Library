@@ -1,0 +1,3 @@
+[submodule "Manage/Librarian"]
+	path = Manage/Librarian
+	url = https://github.com/murphybread/Librarian.git
