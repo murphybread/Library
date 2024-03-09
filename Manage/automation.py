@@ -114,12 +114,10 @@ def add_tags_to_md_files(base_path, json_structure):
                             if len(parts) == 3:
                                 header, middle, body = parts
                                 
-                                
                                 body_lines = body.split('\n', 2)
-                                print(f' line 0 {body_lines[0]}')
-                                print(f' line 1 {body_lines[1]}')
-                                print(f' line 2 {body_lines[2]}')
-                                modified_body = f"{new_tag}\n{body_lines[2]}" if len(body_lines) > 1 else new_tag
+
+
+                                modified_body = f"{new_tag}\n{body_lines[2]}" if len(body_lines) >  2 else new_tag
                                 new_content = f"---{middle}---\n{modified_body}"  # Reassemble the new content
                                 f.write(new_content)
                                 f.truncate()  # Remove the rest of the old content
