@@ -4,6 +4,7 @@ import shutil
 import re
 
 import convert_md_to_json
+import create_base_template
 
 
 # Load the JSON file containing the directory structure
