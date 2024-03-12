@@ -4,7 +4,10 @@ import shutil
 import re
 
 import convert_md_to_json
+
 import create_base_template
+from pathlib import Path
+
 
 
 # Load the JSON file containing the directory structure
@@ -61,8 +64,8 @@ def determine_new_path(file_name, structure, base_path):
     subcategory_code = parts[0]
     book_suffix = parts[1] if len(parts) > 1 else None
 
-    print(f"Processing file: {file_name}")
-    print(f"Subcategory code: {subcategory_code}, Book suffix: {book_suffix}")
+    # print(f"Processing file: {file_name}")
+    # print(f"Subcategory code: {subcategory_code}, Book suffix: {book_suffix}")
 
     # Iterate through the JSON structure to find the matching path
     for major_key, major_val in structure["MajorCategories"].items():
@@ -231,4 +234,13 @@ move_files_from_Entrance(
 )  # Added this line
 
 
+TEMPLATE_FILE_NAME = 'base_template.md'
 
+# Set the library_path to the Library directory
+library_path = Path(__file__).parent.parent
+
+# Set the output_file path to the Librarian directory
+output_file = Path(__file__).parent / 'Librarian' / TEMPLATE_FILE_NAME
+
+
+create_base_template.create_base_template(library_path, output_file, TEMPLATE_FILE_NAME)
