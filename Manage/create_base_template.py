@@ -2,7 +2,6 @@ import re
 import yaml
 from pathlib import Path
 
-TEMPLATE_FILE_NAME = 'base_template.md'
 
 def extract_description_from_md(file_path):
     """Extract description field from markdown file"""
@@ -19,8 +18,11 @@ def extract_description_from_md(file_path):
                 return 'None'
         return 'None'
 
-def create_base_template(library_path, output_file):
+def create_base_template(library_path, output_file,template_file_name='base_template.md'):
     """Navigate the directory structure to extract the description and create base_template.md"""
+    
+    print(f'***************Start Create base template*************** \nlibrary_path = {library_path} \noutput_file = {output_file} \nTEMPLATE_FILE_NAME = {template_file_name}')
+
     descriptions = {}
     pattern = re.compile(r'^\d{3}.*\.md$')
     
@@ -38,16 +40,8 @@ def create_base_template(library_path, output_file):
     with output_file.open('w', encoding='utf-8') as out_file:
         for path, desc in descriptions.items():
             out_file.write(f'## {path}\n description: {desc}\n\n')
+    
+    print(f'***************Finished!! Create base template *************** \nbase template : library_path = {library_path} \noutput_file = {output_file} \nTEMPLATE_FILE_NAME = {template_file_name}')
 
 
-# Set the library_path to the Library directory
-library_path = Path(__file__).parent.parent
 
-# Set the output_file path to the Librarian directory
-output_file = Path(__file__).parent / 'Librarian' / TEMPLATE_FILE_NAME
-
-
-print(f'***************Start Create base template*************** \nlibrary_path = {library_path} \noutput_file = {output_file} \nTEMPLATE_FILE_NAME = {TEMPLATE_FILE_NAME}')
-# Create base_template.md
-create_base_template(library_path, output_file)
-print(f'***************Finished!! Create base template *************** \nbase template : library_path = {library_path} \noutput_file = {output_file} \nTEMPLATE_FILE_NAME = {TEMPLATE_FILE_NAME}')
