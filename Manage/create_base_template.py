@@ -11,10 +11,16 @@ def extract_description_from_md(file_path):
         
         
         if metadata:
+            extracted_metadata = metadata.group(1)
+            # print(f"Extracted YAML:\n {md_file} {extracted_metadata}")  # Diagnostic print
             try:
-                data = yaml.safe_load(metadata.group(1))
-                return data.get('description', 'No description provided')
-            except yaml.YAMLError:
+                data = yaml.safe_load(extracted_metadata)
+                description = data.get('description', 'No description provided')
+                # print(f"dscription: {description}")  # Diagnostic print
+                
+                return description
+            except yaml.YAMLError as e:
+                print(f"YAML Error: {e}")
                 return 'None'
         return 'None'
 
