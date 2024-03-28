@@ -1,4 +1,8 @@
+.env
 *.md
 *.json
 __pycache__/
-**/.streamlit/* 
+.streamlit/
+
+# Mac metadata
+.DS_Store
