@@ -240,7 +240,13 @@ TEMPLATE_FILE_NAME = 'base_template.md'
 library_path = Path(__file__).parent.parent
 
 # Set the output_file path to the Librarian directory
-output_file = Path(__file__).parent / 'Librarian' / TEMPLATE_FILE_NAME
+
+output_file = Path(__file__).parent / TEMPLATE_FILE_NAME
+print(f'output_file :{output_file}')
+
+# convert_output_file = output_file.as_posix()
+# print(f'output_file after convert :{convert_output_file}')
 
 
+#create_base_template.create_base_template(library_path, output_file, TEMPLATE_FILE_NAME)
 create_base_template.create_base_template(library_path, output_file, TEMPLATE_FILE_NAME)
