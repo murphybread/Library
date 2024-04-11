@@ -24,7 +24,7 @@ def extract_description_from_md(file_path):
                 return 'None'
         return 'None'
 
-def create_base_template(library_path, output_file,template_file_name='base_template.md'):
+def create_base_template(library_path, output_file, template_file_name='base_template.md'):
     """Navigate the directory structure to extract the description and create base_template.md"""
     
     print(f'***************Start Create base template*************** \nlibrary_path = {library_path} \noutput_file = {output_file} \nTEMPLATE_FILE_NAME = {template_file_name}')
@@ -34,20 +34,18 @@ def create_base_template(library_path, output_file,template_file_name='base_temp
     
     for path in library_path.rglob('*.md'):
         if pattern.match(path.name):
-            
             description = extract_description_from_md(path)
             if description:
                 relative_path = path.relative_to(library_path)
-                descriptions[str(relative_path)] = description
+                # Ensure descriptions use forward slashes in paths
+                descriptions[relative_path.as_posix()] = description
 
     output_file.parent.mkdir(parents=True, exist_ok=True)
     
-    
     with output_file.open('w', encoding='utf-8') as out_file:
-        for path, desc in descriptions.items():
-            out_file.write(f'## {path}\n description: {desc}\n\n')
+        for posix_path, desc in descriptions.items():
+            out_file.write(f'## {posix_path}\n description: {desc}\n\n')
     
     print(f'***************Finished!! Create base template *************** \nbase template : library_path = {library_path} \noutput_file = {output_file} \nTEMPLATE_FILE_NAME = {template_file_name}')
-
 
 
