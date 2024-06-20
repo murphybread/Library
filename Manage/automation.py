@@ -5,7 +5,7 @@ import re
 
 import convert_md_to_json
 import create_base_template
-import duplicate_tag
+
 from pathlib import Path
 
 
@@ -253,9 +253,3 @@ print(f'current_output_file :{current_output_file}')
 create_base_template.create_base_template(library_path, current_output_file, TEMPLATE_FILE_NAME)
 create_base_template.create_base_template(library_path, librarian_output_file, TEMPLATE_FILE_NAME)
 
-
-# start duplicate tag .py
-duplicate_tag.update_content_and_position(base_directory)
-duplicate_tag.remove_specific_duplicate_tags(base_directory)
-
-# end duplicate tag .py
